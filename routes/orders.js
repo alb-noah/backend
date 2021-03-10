@@ -7,7 +7,7 @@ var {database} = require('../config/helpers');
 /* GET ALL ORDERS . */
 router.get('/',(req, res)=>{
   database.table('orders_details as od')
-      .join(
+      .join([
           {
             table: 'orders as o',
             on: 'o.id = od.order_id'
@@ -19,7 +19,7 @@ router.get('/',(req, res)=>{
           {
             table: 'users as u',
             on:'u.id = o.user_id'
-          })
+          }])
       .withFields(['o.id','p.title as name','p.description', 'p.price', 'u.username'])
       .sort({id: 1})
       .getAll()
@@ -36,7 +36,7 @@ router.get('/',(req, res)=>{
 router.get('/:id',(req, res)=>{
   const orderId = req.params.id;
   database.table('orders_details as od')
-      .join(
+      .join([
           {
             table: 'orders as o',
             on: 'o.id = od.order_id'
@@ -48,7 +48,8 @@ router.get('/:id',(req, res)=>{
           {
             table: 'users as u',
             on:'u.id = o.user_id'
-          })
+          }
+      ])
       .withFields(['o.id','p.title as name','p.description', 'p.price', 'u.username'])
       .filter({'o.id': orderId})
       .getAll()
