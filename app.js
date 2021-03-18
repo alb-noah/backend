@@ -6,23 +6,22 @@ const cors = require('cors');
 const productsRoute = require('./routes/products');
 const usersRoute = require('./routes/orders');
 const app = express();
+const productsRouter = require('./routes/products');
+
 //use route
-app.use('api/products',productsRoute);
-app.use('api/users',usersRoute);
-
-
+// Import Routes
 
 app.use(cors({
     origin:"*",
-    methods:['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
+    methods: ['GET', 'PUT', 'DELETE', 'PATCH', 'POST'],
     allowedHeaders:'content-Type, Authorization, Origin, x-Requested, Accept',
 }));
+app.use('/api/products', productsRouter);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 
 module.exports = app;

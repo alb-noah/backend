@@ -50,14 +50,14 @@ router.get('/:id',(req, res)=>{
             on:'u.id = o.user_id'
           }
       ])
-      .withFields(['o.id','p.title as name','p.description', 'p.price', 'u.username'])
+      .withFields(['o.id','p.title as name','p.description', 'p.price', 'u.username','p.image','od.quantity as quantityOrdered'])
       .filter({'o.id': orderId})
       .getAll()
       .then(orders =>{
         if(orders.length >0){
           res.status(200).json(orders);
         }else {
-          res.json({message:`لايوجد طلب يحمل الرقم ${oederId}`});
+          res.json({message:`لايوجد طلب يحمل الرقم ${orederId}`});
         }
       }).catch(err => console.log(err));
 });
@@ -118,7 +118,7 @@ router.post('/new', (req, res)=>{
     }).catch(err => console.log(err));
 
   } else {
-    res.json({message:  'فشلت الطلبية الجديدة', success: false})
+    res.json({message:  'فشل الطلب الجديد , حاول مجدد', success: false})
   }
 
 
